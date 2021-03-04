@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Res } from '@nestjs/common';
+import { Controller, Get, Post, Body, Res, Param } from '@nestjs/common';
 import { UserDto } from './dto/user.dto';
 import { UsersService } from './users.service';
 import { Response } from 'express';
@@ -24,6 +24,25 @@ export class UsersController {
       });
     }
   }
+
+  @Get(':id')
+  public async getUserById(@Res() response: Response, @Param('id') id: string) {
+    let result = await this.userService.getUserById(id).then((response) => {
+      return response;
+    });
+    if (result) {
+      return response.status(200).json({
+        status: 'Successful',
+        data: result,
+      });
+    } else {
+      return response.status(404).json({
+        status: 'Unsuccessful',
+        message: 'Users not Found',
+      });
+    }
+  }
+
   @Post()
   public async postUser(
     @Body() PostUserDto: UserDto,
