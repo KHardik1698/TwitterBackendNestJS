@@ -18,8 +18,11 @@ export class UsersService {
     return users;
   }
 
-  public async postUser(newUser: UserDto) {
-    const user = await new this.userModel(newUser);
-    return user.save();
+  public async postUser(newUser: UserDto): Promise<UserDto> {
+    const user = await new this.userModel(newUser).save();
+    if (!user) {
+      throw new HttpException('Internal Error', 500);
+    }
+    return user;
   }
 }
