@@ -3,6 +3,7 @@ import { IUser } from './interface/users.interface';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { UserDto } from './dto/user.dto';
+import * as uniqid from 'uniqid';
 
 @Injectable()
 export class UsersService {
@@ -18,7 +19,16 @@ export class UsersService {
     return users;
   }
 
+  public async getUserById(id: string): Promise<UserDto> {
+    const user = await this.userModel.findOne({ id: id }).exec();
+    if (!user) {
+      throw new HttpException('Not Found', 404);
+    }
+    return user;
+  }
+
   public async postUser(newUser: UserDto): Promise<UserDto> {
+    newUser.id = uniqid();
     const user = await new this.userModel(newUser).save();
     if (!user) {
       throw new HttpException('Internal Error', 500);
