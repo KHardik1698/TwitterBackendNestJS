@@ -17,6 +17,11 @@ export class UsersController {
         status: 'Successful',
         data: result,
       });
+    } else {
+      return response.status(404).json({
+        status: 'Unsuccessful',
+        message: 'Users not Found',
+      });
     }
   }
   @Post()
@@ -33,6 +38,11 @@ export class UsersController {
       return response.status(200).json({
         status: 'Successful',
         data: result,
+      });
+    } else {
+      return response.status(500).json({
+        status: 'Unsuccessful',
+        message: 'Users not Created',
       });
     }
   }
