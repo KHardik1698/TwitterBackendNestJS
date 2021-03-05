@@ -12,17 +12,10 @@ export class UsersController {
     let result = await this.userService.getUsers().then((response) => {
       return response;
     });
-    if (result) {
-      return response.status(200).json({
-        status: 'Successful',
-        data: result,
-      });
-    } else {
-      return response.status(404).json({
-        status: 'Unsuccessful',
-        message: 'Users not Found.',
-      });
-    }
+    return response.status(200).json({
+      status: 'Successful',
+      data: result,
+    });
   }
 
   @Get(':id')
@@ -30,17 +23,10 @@ export class UsersController {
     let result = await this.userService.getUserById(id).then((response) => {
       return response;
     });
-    if (result) {
-      return response.status(200).json({
-        status: 'Successful',
-        data: result,
-      });
-    } else {
-      return response.status(404).json({
-        status: 'Unsuccessful',
-        message: `User #${id} not Found.`,
-      });
-    }
+    return response.status(200).json({
+      status: 'Successful',
+      data: result,
+    });
   }
 }
 
@@ -58,16 +44,21 @@ export class UserSignupController {
       .then((response) => {
         return response;
       });
-    if (result) {
-      return response.status(200).json({
-        status: 'Successful',
-        data: result,
-      });
-    } else {
-      return response.status(500).json({
-        status: 'Unsuccessful',
-        message: 'Signup Failed.',
-      });
-    }
+    return response.status(200).json({
+      status: 'Successful',
+      data: result,
+    });
   }
 }
+
+// if (result) {
+//   return response.status(200).json({
+//     status: 'Successful',
+//     data: result,
+//   });
+// } else {
+//   return response.status(500).json({
+//     status: 'Unsuccessful',
+//     message: 'Signup Failed.',
+//   });
+// }
