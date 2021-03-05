@@ -20,7 +20,7 @@ export class UsersController {
     } else {
       return response.status(404).json({
         status: 'Unsuccessful',
-        message: 'Users not Found',
+        message: 'Users not Found.',
       });
     }
   }
@@ -38,13 +38,18 @@ export class UsersController {
     } else {
       return response.status(404).json({
         status: 'Unsuccessful',
-        message: 'Users not Found',
+        message: `User #${id} not Found.`,
       });
     }
   }
+}
+
+@Controller('users/signup')
+export class UserSignupController {
+  constructor(private userService: UsersService) {}
 
   @Post()
-  public async postUser(
+  public async signUpUser(
     @Body() PostUserDto: UserDto,
     @Res() response: Response,
   ) {
@@ -61,7 +66,7 @@ export class UsersController {
     } else {
       return response.status(500).json({
         status: 'Unsuccessful',
-        message: 'Users not Created',
+        message: 'Signup Failed.',
       });
     }
   }

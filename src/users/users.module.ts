@@ -1,5 +1,5 @@
 import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
-import { UsersController } from './users.controller';
+import { UsersController, UserSignupController } from './users.controller';
 import { UsersService } from './users.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserSchema } from './schemas/users.schema';
@@ -19,7 +19,7 @@ import {
       },
     ]),
   ],
-  controllers: [UsersController],
+  controllers: [UsersController, UserSignupController],
   providers: [UsersService],
 })
 export class UsersModule implements NestModule {
@@ -31,6 +31,6 @@ export class UsersModule implements NestModule {
         CreatePasswordHash,
         AddInternalData,
       )
-      .forRoutes(UsersController);
+      .forRoutes(UserSignupController);
   }
 }
