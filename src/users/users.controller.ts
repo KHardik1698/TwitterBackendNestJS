@@ -28,13 +28,8 @@ export class UsersController {
       data: result,
     });
   }
-}
 
-@Controller('users/signup')
-export class UserSignupController {
-  constructor(private userService: UsersService) {}
-
-  @Post()
+  @Post('/signup')
   public async signUpUser(
     @Body() PostUserDto: UserDto,
     @Res() response: Response,
