@@ -3,7 +3,10 @@ import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserSchema } from './schemas/users.schema';
-import { MatchPasswordMiddleware } from './users.middleware';
+import {
+  IsUserRegisteredMiddleware,
+  MatchPasswordMiddleware,
+} from './users.middleware';
 
 @Module({
   imports: [
@@ -19,6 +22,8 @@ import { MatchPasswordMiddleware } from './users.middleware';
 })
 export class UsersModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(MatchPasswordMiddleware).forRoutes(UsersController);
+    consumer
+      .apply(IsUserRegisteredMiddleware, MatchPasswordMiddleware)
+      .forRoutes(UsersController);
   }
 }
