@@ -4,8 +4,9 @@ import { UsersService } from './users.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserSchema } from './schemas/users.schema';
 import {
-  IsUserRegisteredMiddleware,
-  MatchPasswordMiddleware,
+  IsUserRegistered,
+  MatchPassword,
+  CreatePasswordHash,
 } from './users.middleware';
 
 @Module({
@@ -23,7 +24,7 @@ import {
 export class UsersModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
-      .apply(IsUserRegisteredMiddleware, MatchPasswordMiddleware)
+      .apply(IsUserRegistered, MatchPassword, CreatePasswordHash)
       .forRoutes(UsersController);
   }
 }
