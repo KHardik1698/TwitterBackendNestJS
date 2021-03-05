@@ -29,9 +29,6 @@ export class UsersService {
   }
 
   public async postUser(newUser: UserDto): Promise<UserDto> {
-    if (newUser.password !== newUser.confirmPassword) {
-      throw new HttpException(`Password & Confirm Password don't match`, 500);
-    }
     newUser.id = uniqid();
     newUser.password = await bcrypt.hash(newUser.password, 10);
     const user = await new this.userModel(newUser).save();

@@ -1,8 +1,9 @@
-import { Module } from '@nestjs/common';
+import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserSchema } from './schemas/users.schema';
+import { MatchPasswordMiddleware } from './users.middleware';
 
 @Module({
   imports: [
@@ -16,4 +17,8 @@ import { UserSchema } from './schemas/users.schema';
   controllers: [UsersController],
   providers: [UsersService],
 })
-export class UsersModule {}
+export class UsersModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(MatchPasswordMiddleware).forRoutes(UsersController);
+  }
+}
