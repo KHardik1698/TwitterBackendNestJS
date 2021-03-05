@@ -3,7 +3,6 @@ import { IUser } from './interface/users.interface';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { UserDto } from './dto/user.dto';
-import * as uniqid from 'uniqid';
 
 @Injectable()
 export class UsersService {
@@ -28,7 +27,6 @@ export class UsersService {
   }
 
   public async postUser(newUser: UserDto): Promise<UserDto> {
-    newUser.id = uniqid();
     const user = await new this.userModel(newUser).save();
     if (!user) {
       throw new HttpException('Internal Error', 500);

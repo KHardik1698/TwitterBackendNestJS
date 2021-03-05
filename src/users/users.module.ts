@@ -7,6 +7,7 @@ import {
   IsUserRegistered,
   MatchPassword,
   CreatePasswordHash,
+  AddInternalData,
 } from './users.middleware';
 
 @Module({
@@ -24,7 +25,12 @@ import {
 export class UsersModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
-      .apply(IsUserRegistered, MatchPassword, CreatePasswordHash)
+      .apply(
+        IsUserRegistered,
+        MatchPassword,
+        CreatePasswordHash,
+        AddInternalData,
+      )
       .forRoutes(UsersController);
   }
 }

@@ -4,6 +4,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { IUser } from './interface/users.interface';
 import * as bcrypt from 'bcrypt';
+import * as uniqid from 'uniqid';
 
 @Injectable()
 export class IsUserRegistered implements NestMiddleware {
@@ -39,6 +40,15 @@ export class CreatePasswordHash implements NestMiddleware {
       throw new HttpException(`Internal Server Error.`, 500);
     }
     req.body.password = hash;
+    req.body.id = uniqid();
+    req.body.createdAt = Date.now();
+    next();
+  }
+}
+export class AddInternalData implements NestMiddleware {
+  use(req: Request, res: Response, next: NextFunction) {
+    req.body.id = uniqid();
+    req.body.createdAt = Date.now();
     next();
   }
 }
