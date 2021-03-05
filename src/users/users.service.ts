@@ -12,14 +12,14 @@ export class UsersService {
 
   public async getUsers(): Promise<UserDto[]> {
     const users = await this.userModel.find().exec();
-    if (!users) {
+    if (!users.length) {
       throw new HttpException('Not Found', 404);
     }
     return users;
   }
 
   public async getUserById(id: string): Promise<UserDto> {
-    const user = await this.userModel.findOne({ id: id }).exec();
+    const user = await this.userModel.findOne({ userId: id }).exec();
     if (!user) {
       throw new HttpException('Not Found', 404);
     }

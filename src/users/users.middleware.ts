@@ -47,7 +47,7 @@ export class CreatePasswordHash implements NestMiddleware {
 }
 export class AddInternalData implements NestMiddleware {
   use(req: Request, res: Response, next: NextFunction) {
-    req.body.id = uniqid();
+    req.body.userId = uniqid();
     req.body.createdAt = Date.now();
     next();
   }
