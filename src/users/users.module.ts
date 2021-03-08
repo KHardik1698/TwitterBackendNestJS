@@ -31,6 +31,6 @@ export class UsersModule implements NestModule {
         CreatePasswordHash,
         AddInternalData,
       )
-      .forRoutes(UsersController);
+      .forRoutes('/users/signup');
   }
 }
