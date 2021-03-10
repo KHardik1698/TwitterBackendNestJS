@@ -1,4 +1,4 @@
-import { Injectable, NestMiddleware } from '@nestjs/common';
+import { Injectable, NestMiddleware, Logger } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -60,6 +60,32 @@ export class AddInternalData implements NestMiddleware {
   use(req: Request, res: Response, next: NextFunction) {
     req.body.userId = uniqid();
     req.body.createdAt = Date.now();
+    next();
+  }
+}
+
+export class AppLoggerMiddleware implements NestMiddleware {
+  private logger = new Logger('HTTP');
+
+  use(request: Request, response: Response, next: NextFunction): void {
+    const requestStart = Date.now();
+    const { ip, method, originalUrl } = request;
+    const userAgent = request.get('user-agent') || '';
+
+    response.on('finish', () => {
+      const { statusCode, statusMessage } = response;
+      const responseEnd = Date.now();
+      const processingTime = responseEnd - requestStart;
+
+      this.logger.log(
+        `
+        Client Details: Sent from : ${userAgent}, IP Address: ${ip}.
+        Request Details : ${method} Request on ${originalUrl} Route.
+        Response Details: Processing Time: ${processingTime}ms, Responded with Status: ${statusCode} ${statusMessage}.
+        `,
+      );
+    });
+
     next();
   }
 }
