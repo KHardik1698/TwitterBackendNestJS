@@ -8,6 +8,7 @@ import {
   MatchPassword,
   CreatePasswordHash,
   AddInternalData,
+  AppLoggerMiddleware,
 } from './users.middleware';
 
 @Module({
@@ -25,6 +26,8 @@ import {
 export class UsersModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
+      .apply(AppLoggerMiddleware)
+      .forRoutes('*')
       .apply(
         IsUserRegistered,
         MatchPassword,
