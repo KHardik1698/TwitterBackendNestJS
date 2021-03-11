@@ -69,6 +69,7 @@ export class AppLoggerMiddleware implements NestMiddleware {
 
   use(request: Request, response: Response, next: NextFunction): void {
     const requestStart = Date.now();
+    const requestId = 'req-' + uniqid();
     const { ip, method, originalUrl } = request;
     const userAgent = request.get('user-agent') || '';
 
@@ -80,7 +81,7 @@ export class AppLoggerMiddleware implements NestMiddleware {
       this.logger.log(
         `
         Client Details: Sent from : ${userAgent}, IP Address: ${ip}.
-        Request Details : ${method} Request on ${originalUrl} Route.
+        Request Details : Request Id: ${requestId}, ${method} Request on ${originalUrl} Route.
         Response Details: Processing Time: ${processingTime}ms, Responded with Status: ${statusCode} ${statusMessage}.
         `,
       );
