@@ -8,6 +8,7 @@ import {
   MatchPassword,
   CreatePasswordHash,
   AddInternalData,
+  UpdateUserData,
   AppLoggerMiddleware,
 } from './users.middleware';
 
@@ -34,6 +35,8 @@ export class UsersModule implements NestModule {
         CreatePasswordHash,
         AddInternalData,
       )
-      .forRoutes('/users/signup');
+      .forRoutes('/users/signup')
+      .apply(UpdateUserData)
+      .forRoutes('/users/update/:id');
   }
 }
