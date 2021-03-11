@@ -28,6 +28,7 @@ class mockRepository {
   save = jest.fn().mockResolvedValue(this.data);
   static find = jest.fn().mockResolvedValue([mockUserData]);
   static findOne = jest.fn().mockResolvedValue(mockUserData);
+  static findOneAndDelete = jest.fn().mockResolvedValue(mockUserData);
 }
 
 describe('UsersService', () => {
@@ -58,14 +59,9 @@ describe('UsersService', () => {
   });
 
   it('should return error if users not present in array of all users', async () => {
-    return await service
-      .getUsers()
-      .then((data) => {
-        expect([{}]).not.toStrictEqual([mockUserData]);
-      })
-      .catch((err) => {
-        expect(err).toThrowError();
-      });
+    return await service.getUsers().catch((err) => {
+      expect(err).toThrowError();
+    });
   });
 
   it('should return a single user', async () => {
@@ -75,14 +71,9 @@ describe('UsersService', () => {
   });
 
   it('should return error if user not present', async () => {
-    return await service
-      .getUserById('2pbz9rieq4km0gscct')
-      .then((data) => {
-        expect({}).not.toStrictEqual(mockUserData);
-      })
-      .catch((err) => {
-        expect(err).toThrowError();
-      });
+    return await service.getUserById('2pbz9rieq4km0gscct').catch((err) => {
+      expect(err).toThrowError();
+    });
   });
 
   it('should save a single user', async () => {
@@ -92,13 +83,20 @@ describe('UsersService', () => {
   });
 
   it('should return error if a user is not saved', async () => {
-    return await service
-      .postUser(mockPostUserData)
-      .then((data) => {
-        expect({}).not.toStrictEqual(mockUserData);
-      })
-      .catch((err) => {
-        expect(err).toThrowError();
-      });
+    return await service.postUser(mockPostUserData).catch((err) => {
+      expect(err).toThrowError();
+    });
+  });
+
+  it('should delete a single user', async () => {
+    return await service.deleteUserById('2pbz9rieq4km0gscct').then((data) => {
+      expect(data).toStrictEqual(mockUserData);
+    });
+  });
+
+  it('should return error if user not present', async () => {
+    return await service.deleteUserById('2pbz9rieq4km0gscct').catch((err) => {
+      expect(err).toThrowError();
+    });
   });
 });
