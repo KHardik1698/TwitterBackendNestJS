@@ -3,11 +3,12 @@ import {
   Get,
   Post,
   Delete,
+  Put,
   Body,
   Res,
   Param,
 } from '@nestjs/common';
-import { UserDto } from './dto/user.dto';
+import { UserDto, UpdateUserDto } from './dto/user.dto';
 import { UsersService } from './users.service';
 import { Response } from 'express';
 
@@ -61,6 +62,23 @@ export class UsersController {
     let result = await this.userService.deleteUserById(id).then((response) => {
       return response;
     });
+    return response.status(200).json({
+      status: 'Successful',
+      data: result,
+    });
+  }
+
+  @Put('/update/:id')
+  public async updateUserById(
+    @Res() response: Response,
+    @Param('id') id: string,
+    @Body() UpdateUserDto: UpdateUserDto,
+  ) {
+    let result = await this.userService
+      .updateUserById(id, UpdateUserDto)
+      .then((response) => {
+        return response;
+      });
     return response.status(200).json({
       status: 'Successful',
       data: result,
