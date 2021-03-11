@@ -15,7 +15,7 @@ export class UsersService {
     const users = await this.userModel.find();
     if (!users.length) {
       throw new HttpExceptionClass(
-        { status: 'Unsuccessful', message: 'Users Data not Found.' },
+        { status: 'Unsuccessful', message: 'Users Data Not Found.' },
         404,
       );
     }
@@ -26,7 +26,7 @@ export class UsersService {
     const user = await this.userModel.findOne({ userId: id });
     if (!user) {
       throw new HttpExceptionClass(
-        { status: 'Unsuccessful', message: `User with Id #${id} not Found.` },
+        { status: 'Unsuccessful', message: `User with Id #${id} Not Found.` },
         404,
       );
     }
@@ -42,6 +42,17 @@ export class UsersService {
           message: 'Internal Error, User Signup Failed.',
         },
         500,
+      );
+    }
+    return user;
+  }
+
+  public async deleteUserById(id: string): Promise<UserDto> {
+    const user = await this.userModel.findOneAndDelete({ userId: id });
+    if (!user) {
+      throw new HttpExceptionClass(
+        { status: 'Unsuccessful', message: `User with Id #${id} Not Found.` },
+        404,
       );
     }
     return user;
