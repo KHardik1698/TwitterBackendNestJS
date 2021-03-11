@@ -64,6 +64,21 @@ export class AddInternalData implements NestMiddleware {
   }
 }
 
+export class UpdateUserData implements NestMiddleware {
+  use(req: Request, res: Response, next: NextFunction) {
+    let keys = Object.keys(req.body);
+    let values = Object.values(req.body);
+    let updatedUser = {};
+    for (let i in keys) {
+      if (values[i] !== '') {
+        updatedUser[`${keys[i]}`] = values[i];
+      }
+    }
+    req.body = updatedUser;
+    next();
+  }
+}
+
 export class AppLoggerMiddleware implements NestMiddleware {
   private logger = new Logger('HTTP');
 
