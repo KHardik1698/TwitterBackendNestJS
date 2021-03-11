@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { IUser } from './interface/users.interface';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { UserDto } from './dto/user.dto';
+import { UserDto, UpdateUserDto } from './dto/user.dto';
 import { HttpExceptionClass } from './helpers/users.httpexception';
 
 @Injectable()
@@ -56,5 +56,23 @@ export class UsersService {
       );
     }
     return user;
+  }
+
+  public async updateUserById(
+    id: string,
+    updateUser: UpdateUserDto,
+  ): Promise<UserDto> {
+    const user = await this.userModel.findOneAndUpdate(
+      { userId: id },
+      updateUser,
+    );
+    if (!user) {
+      throw new HttpExceptionClass(
+        { status: 'Unsuccessful', message: `User with Id #${id} Not Found.` },
+        404,
+      );
+    }
+    const updatedUser = await this.userModel.findOne({ userId: id });
+    return updatedUser;
   }
 }
