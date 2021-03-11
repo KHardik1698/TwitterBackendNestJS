@@ -15,7 +15,7 @@ import { Response } from 'express';
 export class UsersController {
   constructor(private userService: UsersService) {}
 
-  @Get()
+  @Get('/get')
   public async getUsers(@Res() response: Response) {
     let result = await this.userService.getUsers().then((response) => {
       return response;
@@ -26,7 +26,7 @@ export class UsersController {
     });
   }
 
-  @Get(':id')
+  @Get('get/:id')
   public async getUserById(@Res() response: Response, @Param('id') id: string) {
     let result = await this.userService.getUserById(id).then((response) => {
       return response;
@@ -53,7 +53,7 @@ export class UsersController {
     });
   }
 
-  @Delete(':id')
+  @Delete('/delete/:id')
   public async deleteUserById(
     @Res() response: Response,
     @Param('id') id: string,
