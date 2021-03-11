@@ -25,3 +25,10 @@ export class UserDto {
   @IsString()
   confirmPassword: string;
 }
+
+export class UpdateUserDto {
+  firstname: string;
+  lastname: string;
+  username: string;
+  email: string;
+}
