@@ -36,7 +36,7 @@ export class UsersModule implements NestModule {
         AddInternalData,
       )
       .forRoutes('/users/signup')
-      .apply(UpdateUserData)
+      .apply(IsUserRegistered, UpdateUserData)
       .forRoutes('/users/update/:id');
   }
 }
