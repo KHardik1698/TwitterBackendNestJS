@@ -8,7 +8,7 @@ import {
   Res,
   Param,
 } from '@nestjs/common';
-import { UserDto, UpdateUserDto } from './dto/user.dto';
+import { UserDto, UpdateUserDto } from './dto/users.dto';
 import { UsersService } from './users.service';
 import { Response } from 'express';
 

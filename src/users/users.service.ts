@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { IUser } from './interface/users.interface';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { UserDto, UpdateUserDto } from './dto/user.dto';
+import { UserDto, UpdateUserDto } from './dto/users.dto';
 import { HttpExceptionClass } from './helpers/users.httpexception';
 
 @Injectable()

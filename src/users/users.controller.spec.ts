@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 import { getModelToken } from '@nestjs/mongoose';
-import { UserDto } from './dto/user.dto';
+import { UserDto } from './dto/users.dto';
 
 describe('UsersController', () => {
   let controller: UsersController;
