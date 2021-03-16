@@ -5,12 +5,15 @@ import {
   Delete,
   Put,
   Body,
+  Req,
   Res,
   Param,
+  UseGuards,
 } from '@nestjs/common';
 import { UserDto, UpdateUserDto } from './dto/users.dto';
 import { UsersService } from './users.service';
-import { Response } from 'express';
+import { Request, Response } from 'express';
+import { LocalAuthGuard } from '../authentication/local-auth.guard';
 
 @Controller('users')
 export class UsersController {
@@ -82,6 +85,15 @@ export class UsersController {
     return response.status(200).json({
       status: 'Successful',
       data: result,
+    });
+  }
+
+  @UseGuards(LocalAuthGuard)
+  @Post('auth/login')
+  public async loginUser(@Req() request: Request, @Res() response: Response) {
+    return response.status(200).json({
+      status: 'Login Successful',
+      data: request.user,
     });
   }
 }
