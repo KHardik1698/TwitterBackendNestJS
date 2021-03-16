@@ -13,12 +13,22 @@ export class IsUserRegistered implements NestMiddleware {
     @InjectModel('TwitterUser') private readonly userModel: Model<IUser>,
   ) {}
   async use(req: Request, res: Response, next: NextFunction) {
-    const user = await this.userModel.findOne({ email: req.body.email }).exec();
+    let user = await this.userModel.findOne({ email: req.body.email });
     if (user) {
       throw new HttpExceptionClass(
         {
           status: 'Unsuccessful',
           message: `Email Id ${req.body.email} is already Registered. Please Login.`,
+        },
+        401,
+      );
+    }
+    user = await this.userModel.findOne({ username: req.body.username });
+    if (user) {
+      throw new HttpExceptionClass(
+        {
+          status: 'Unsuccessful',
+          message: `Username ${req.body.username} is already Registered. Please Login.`,
         },
         401,
       );
