@@ -33,6 +33,20 @@ export class UsersService {
     return user;
   }
 
+  public async getUserByUsername(username: string): Promise<UserDto> {
+    const user = await this.userModel.findOne({ username: username });
+    if (!user) {
+      throw new HttpExceptionClass(
+        {
+          status: 'Unsuccessful',
+          message: `User with Username #${username} Not Found.`,
+        },
+        404,
+      );
+    }
+    return user;
+  }
+
   public async postUser(newUser: UserDto): Promise<UserDto> {
     const user = await new this.userModel(newUser).save();
     if (!user) {
