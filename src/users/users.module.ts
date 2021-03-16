@@ -21,6 +21,7 @@ import {
       },
     ]),
   ],
+  exports: [UsersService],
   controllers: [UsersController],
   providers: [UsersService],
 })
