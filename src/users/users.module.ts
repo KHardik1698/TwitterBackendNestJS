@@ -1,4 +1,9 @@
-import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
+import {
+  Module,
+  NestModule,
+  MiddlewareConsumer,
+  forwardRef,
+} from '@nestjs/common';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -11,6 +16,7 @@ import {
   UpdateUserData,
   AppLoggerMiddleware,
 } from './users.middleware';
+import { AuthenticationModule } from 'src/authentication/authentication.module';
 
 @Module({
   imports: [
@@ -20,6 +26,7 @@ import {
         schema: UserSchema,
       },
     ]),
+    forwardRef(() => AuthenticationModule),
   ],
   exports: [UsersService],
   controllers: [UsersController],
