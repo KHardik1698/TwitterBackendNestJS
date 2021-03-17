@@ -15,6 +15,7 @@ import { UsersService } from './users.service';
 import { Request, Response } from 'express';
 import { LocalAuthGuard } from '../authentication/local-auth.guard';
 import { AuthenticationService } from '../authentication/authentication.service';
+import { JwtAuthGuard } from '../authentication/jwt-auth.guard';
 
 @Controller('users')
 export class UsersController {
@@ -98,8 +99,16 @@ export class UsersController {
     let data = await this.authenticationService.login(request.user);
     return response.status(200).json({
       status: 'Login Successful',
-      user: request.user,
       data: data,
+    });
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('profile')
+  getProfile(@Req() request: Request, @Res() response: Response) {
+    return response.status(200).json({
+      status: 'Login Successful',
+      data: request.user,
     });
   }
 }
