@@ -14,10 +14,14 @@ import { UserDto, UpdateUserDto } from './dto/users.dto';
 import { UsersService } from './users.service';
 import { Request, Response } from 'express';
 import { LocalAuthGuard } from '../authentication/local-auth.guard';
+import { AuthenticationService } from '../authentication/authentication.service';
 
 @Controller('users')
 export class UsersController {
-  constructor(private userService: UsersService) {}
+  constructor(
+    private userService: UsersService,
+    private authenticationService: AuthenticationService,
+  ) {}
 
   @Get('/get')
   public async getUsers(@Res() response: Response) {
@@ -91,9 +95,11 @@ export class UsersController {
   @UseGuards(LocalAuthGuard)
   @Post('auth/login')
   public async loginUser(@Req() request: Request, @Res() response: Response) {
+    let data = await this.authenticationService.login(request.user);
     return response.status(200).json({
       status: 'Login Successful',
-      data: request.user,
+      user: request.user,
+      data: data,
     });
   }
 }
