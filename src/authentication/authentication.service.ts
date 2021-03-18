@@ -28,6 +28,16 @@ export class AuthenticationService {
 
   async login(user: any) {
     const payload = { username: user.username, sub: user.userId };
+    if (!payload) {
+      throw new HttpExceptionClass(
+        {
+          status: 'Unsuccessful',
+          message: 'Internal Server Error.',
+        },
+        500,
+      );
+    }
+    process.env.USER_ID = user.userId;
     return {
       access_token: this.jwtService.sign(payload),
     };
