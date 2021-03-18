@@ -2,9 +2,11 @@ import {
   Controller,
   Get,
   Post,
+  Delete,
   Body,
   Req,
   Res,
+  Param,
   UseGuards,
 } from '@nestjs/common';
 import { TweetsService } from './tweets.service';
@@ -36,6 +38,23 @@ export class TweetsController {
   ) {
     let result = await this.tweetService
       .postTweet(PostTweetDto)
+      .then((response) => {
+        return response;
+      });
+    return response.status(200).json({
+      status: 'Successful',
+      data: result,
+    });
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Delete('/delete/:id')
+  public async deleteTweetById(
+    @Res() response: Response,
+    @Param('id') id: string,
+  ) {
+    let result = await this.tweetService
+      .deleteTweetById(id)
       .then((response) => {
         return response;
       });
