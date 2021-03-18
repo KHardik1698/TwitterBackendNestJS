@@ -12,7 +12,7 @@ export class TweetsService {
   ) {}
 
   public async getTweets(): Promise<TweetDto[]> {
-    const tweets = await this.userModel.find();
+    const tweets = await this.userModel.find({ userId: process.env.USER_ID });
     if (!tweets.length) {
       throw new HttpExceptionClass(
         { status: 'Unsuccessful', message: 'Tweets Data Not Found.' },
