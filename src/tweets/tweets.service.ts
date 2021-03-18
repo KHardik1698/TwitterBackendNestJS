@@ -35,4 +35,21 @@ export class TweetsService {
     }
     return tweet;
   }
+
+  public async deleteTweetById(id: String): Promise<TweetDto> {
+    const tweet = await this.userModel.findOneAndDelete({
+      userId: process.env.USER_ID,
+      tweetId: id,
+    });
+    if (!tweet) {
+      throw new HttpExceptionClass(
+        {
+          status: 'Unsuccessful',
+          message: `Tweet with Id #${id} Not Found.`,
+        },
+        404,
+      );
+    }
+    return tweet;
+  }
 }
